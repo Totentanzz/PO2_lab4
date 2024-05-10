@@ -1,0 +1,152 @@
+@startuml
+class Utils {
++ {static} ArrayList<T> castArrayList(Object,Class<T>)
++ {static} int[] extractRGB(String)
++ {static} void restoreColor(ArrayList<Figure>)
++ {static} void showError(JFrame,String,String,int)
++ {static} void setXMLParameters(XStream)
++ {static} void deleteValueInList(ArrayList<?>,int)
++ {static} String join(List<T>)
+}
+
+class Server {
+- {static} Map<Integer,ClientHandler> clients
+- {static} List<Integer> ids
++ {static} void main(String[])
++ {static} void sendClients(int)
+}
+
+
+class Server$ClientHandler {
++ Socket client
++ ObjectOutputStream out
++ ObjectInputStream in
++ String command
++ boolean isConnected
++ int id
++ void run()
++ void sendClientIds()
++ void disconnect()
+}
+
+
+class DialogWindow {
+~ JButton ok
+~ JButton cancel
+~ JTextField input
+~ String res
++ String showAndWait()
+- void close()
++ void setView()
+- boolean checkPortValidation()
+}
+
+
+class Rectangle {
+- int width
+- int height
++ int getWidth()
++ int getHeight()
++ {static} void setXMLParameters(XStream)
++ String toString()
+}
+
+
+class FigurePanel {
++ void paintComponent(Graphics)
+- void drawRectangle(Graphics,Figure)
+- void drawCircle(Graphics,Figure)
+}
+
+class MainWindow {
+- {static} MainWindow instance
+- JButton btnConnect
+- JButton btnReceive
+- JButton btnDisconnect
+- JButton btnNew
+- FigurePanel figurePanel
+- Client client
+- ArrayList<Figure> figures
++ {static} int figuresCount
+- JList<String> clients
+- int selectedId
++ {static} void createInstance(int,int)
++ {static} MainWindow getInstance()
++ ArrayList<Figure> getFigures()
+- void addMenuBar()
+- void saveActionPerformed(ActionEvent)
+- void loadActionPerformed(ActionEvent)
+- void addPanel(int,int)
+- void addConnectButton()
+- void addReceiveButton()
+- void addDisconnectButton()
+- void addNewButton()
+- FileDialog createFileDialog(JFrame,String,int)
+- String getPath(FileDialog)
+- JButton createButton(String,int,int,boolean)
++ void createFigures()
++ void loadFigures(ArrayList<Figure>)
+- void addClientsList()
++ void updateClientsListFromServer(String)
+}
+
+
+class App {
++ {static} void main(String[])
+}
+
+class RandomFigureFactory {
+- {static} Random RAND
++ {static} Circle createCircle(FigurePanel)
++ {static} Rectangle createRectangle(FigurePanel)
+}
+
+
+class Client {
+- Socket server
+- ObjectOutputStream out
+- ObjectInputStream in
+- boolean isConnected
+- String command
+- int idDeliver
++ void disconnect()
++ boolean isConnected()
++ void receive(int)
++ void run()
+}
+
+
+abstract class Figure {
+- int x
+- int y
+- Color color
+- String rgbColor
++ int getX()
++ int getY()
++ Color getColor()
++ void setColor(Color)
++ String getRgbColor()
++ {static} void setXMLParameters(XStream)
++ String toString()
+}
+
+
+class Circle {
+- int radius
++ int getRadius()
++ {static} void setXMLParameters(XStream)
++ String toString()
+}
+
+
+
+
+Server +.. Server$ClientHandler
+Thread <|-- Server$ClientHandler
+JDialog <|-- DialogWindow
+Figure <|-- Rectangle
+JPanel <|-- FigurePanel
+JFrame <|-- MainWindow
+Runnable <|.. Client
+Figure <|-- Circle
+@enduml
